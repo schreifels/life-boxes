@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Life boxes</title>
+  <meta name="description" content="Each box is one month of your life. Black boxes are lost forever.">
+  <link rel="canonical" href="http://www.schreifels.org/life-boxes/">
+  <style type="text/css">
+    /* html5doctor.com Reset Stylesheet v1.6.1 (http://html5doctor.com/html-5-reset-stylesheet/) */
+    html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+
+    body { font: 15px/1.2em "Times New Roman", Times, serif; }
+    h1 { display: inline; font-size: 2em; line-height: 1.5em; }
+    p { margin: 1em 0; }
+
+    a { color: #6e6e6e; }
+    a:hover { color: #000; text-decoration: none; }
+
+    #container { width: 95%; max-width: 860px; margin: 2.5% auto; word-wrap: break-word; }
+    #print { color: #6e6e6e; font-style: italic; }
+    input { width: 35px; }
+    footer { margin-top: 1em; font-size: 0.8em; font-style: italic; }
+
+    @media print {
+      #inputs, #print, footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Your life represented as boxes</h1> <span id="print">(<a href="#">print</a>)</span>
+    <p id="inputs">I am <input type="text" value="30" id="current-age"> years old and expect to live <input type="text" value="80" id="life-expectancy"> years old.</p>
+    <p>Each box is one month of your life. Black boxes are lost forever.</p>
+    <div id="boxes"></div>
+    <footer>Based on <a href="http://lifeboxes.neocities.org/">Life Boxes</a>, made responsive and printable by <a href="http://schreifels.org">Michael Schreifels</a>. Licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike</a>.</footer>
+  </div>
+  <script type="text/javascript">
+    window.onload = function() {
+      var printEl = document.getElementById('print');
+
+      printEl.onclick = function() { window.print(); }
+
+      var currentAgeEl = document.getElementById('current-age');
+      var lifeExpectancyEl = document.getElementById('life-expectancy');
+
+      currentAgeEl.onkeyup = renderBoxes;
+      lifeExpectancyEl.onkeyup = renderBoxes;
+
+      var boxesEl = document.getElementById('boxes');
+
+      function renderBoxes() {
+        var filledBoxes = Math.round(parseFloat(currentAgeEl.value)*12);
+        if (!filledBoxes || filledBoxes < 1) { filledBoxes = 0; }
+
+        var emptyBoxes  = Math.round(parseFloat(lifeExpectancyEl.value)*12 - filledBoxes);
+        if (!emptyBoxes || emptyBoxes < 0) { emptyBoxes = 0; }
+
+        boxesEl.innerHTML = Array(filledBoxes+1).join('&#9724;') + Array(emptyBoxes+1).join('&#9723;');
+      }
+
+      renderBoxes();
+    }
+  </script>
+</body>
+</html>
